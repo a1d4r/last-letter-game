@@ -30,6 +30,7 @@ classifiers = [  #! Update me
 [tool.poetry.dependencies]
 python = "^3.9"
 p2pnetwork = "^1.1"
+loguru = "^0.5.3"
 
 [tool.poetry.dev-dependencies]
 bandit = "^1.7.1"
