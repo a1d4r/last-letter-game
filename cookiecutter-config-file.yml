@@ -1,0 +1,12 @@
+# This file contains values from Cookiecutter
+
+default_context:
+  project_name: "game"
+  project_description: "Distributed game"
+  organization: "DSMPF students"
+  minimal_python_version: 3.9
+  github_name: "a1d4r"
+  email: "a.garihanov@innopolis.university"
+  version: "0.1.0"
+  line_length: "88"
+  create_example_template: "none"
