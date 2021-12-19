@@ -1,21 +1,29 @@
-import time
+from typing import Optional
 
-from node import MyOwnPeer2PeerNode
+import typer
 
-node = MyOwnPeer2PeerNode("127.0.0.1", 10001)
-time.sleep(1)
+from .node import GamePeerNode
 
-# Do not forget to start your node!
-node.start()
-time.sleep(1)
+app = typer.Typer()
 
-# Connect with another node, otherwise you do not create any network!
-node.connect_with_node("127.0.0.1", 10002)
-time.sleep(2)
 
-# Example of sending a message to the nodes (dict).
-node.send_to_nodes({"message": "Hi there!"})
-
-time.sleep(5)  # Create here your main loop of the application
-
-node.stop()
+@app.command()
+def main(
+    host: str = "127.0.0.1",
+    port: int = 1234,
+    name: Optional[str] = None,
+    redis_dsn: str = "redis://127.0.0.1:6379/0",
+) -> None:
+    node = GamePeerNode(host=host, port=port, redis_dsn=redis_dsn, id=name)
+    # node.connect_with_node("127.0.0.1", 1234)
+    try:
+        node.start()
+        while True:
+            word = input()
+            if word == "exit":
+                node.stop()
+                return
+            node.move_to_next_player()
+            node.send_to_nodes(word)
+    finally:
+        node.stop()

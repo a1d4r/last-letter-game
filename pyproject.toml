@@ -29,8 +29,11 @@ classifiers = [  #! Update me
 
 [tool.poetry.dependencies]
 python = "^3.9"
-p2pnetwork = "^1.1"
+p2pnetwork = { git = "https://github.com/macsnoeren/python-p2p-network.git", branch = "development" }
 loguru = "^0.5.3"
+typer = "^0.4.0"
+redis = "^4.0.2"
+pottery = "^2.0.1"
 
 [tool.poetry.dev-dependencies]
 bandit = "^1.7.1"
@@ -153,6 +156,7 @@ disable = [
   "no-self-argument",  # pydantic validators
   "no-self-use",  # pydantic validators
   "redefined-outer-name",  # pytest fixtures
+  "redefined-builtin",  # id
 ]
 
 [tool.pylint.refactoring]
@@ -185,3 +189,6 @@ overgeneral-exceptions = ["BaseException", "Exception"]
 
 [tool.bandit]
 skips = ["B101"]
+
+[tool.poetry.scripts]
+last-letter = "game.main:app"
