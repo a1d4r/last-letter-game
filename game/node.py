@@ -29,6 +29,9 @@ class GamePeerNode(Node):
         self._redis.ping()
         self.peers = pottery.RedisList([], redis=self._redis, key="peers")
 
+        self.words = set()  # type: set[str]
+        self.last_letter = None  # type: Optional[str]
+
         for peer in self.peers:
             logger.info(f"Connecting to {peer['id']}...")
             self.connect_with_node(peer["host"], peer["port"])
@@ -47,6 +50,19 @@ class GamePeerNode(Node):
         my_index = self.peers.index(self.identity)
         logger.debug(f"My index: {my_index}")
         self.current_player["index"] = (my_index + 1) % len(self.peers)
+
+    def is_word_valid(self, word: str) -> bool:
+        """
+        Check if we can use specified word:
+        1) It has not been used yet
+        2) It starts with the last letter from the previous word.
+        """
+        return (self.last_letter is None) or (
+            word not in self.words and word[0].lower() == self.last_letter
+        )
+
+    def add_word(self, word: str) -> None:
+        self.words.add(word)
 
     def outbound_node_connected(self, node: Node) -> None:
         """
@@ -75,13 +91,15 @@ class GamePeerNode(Node):
         """
         logger.info(f"{node.id} left the game.")
 
-    def node_message(self, node: Node, data: Any) -> None:
+    def node_message(self, node: Node, data: str) -> None:
         """
         A node - connected_node - sends a message. At this moment the basic
         functionality expects JSON format. It tries to decode JSON when the message is received.
         If it is not possible, the message is rejected.
         """
-        word = data
+        word = data.strip()
+        self.last_letter = word[-1]
+        self.words.add(word)
         logger.info(f"{node.id} said: {word}.")
 
         current_player_identity = self.peers[self.current_player["index"]]

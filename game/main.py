@@ -1,6 +1,7 @@
 from typing import Optional
 
 import typer
+from loguru import logger
 
 from .node import GamePeerNode
 
@@ -15,14 +16,15 @@ def main(
     redis_dsn: str = "redis://127.0.0.1:6379/0",
 ) -> None:
     node = GamePeerNode(host=host, port=port, redis_dsn=redis_dsn, id=name)
-    # node.connect_with_node("127.0.0.1", 1234)
-    try:
+    try:  # pylint: disable=too-many-nested-blocks
         node.start()
         while True:
-            word = input()
-            if word == "exit":
-                node.stop()
-                return
+            while not node.is_word_valid(word := input()):
+                if not word[0] == node.last_letter:
+                    logger.error(f"Word should starts with letter {node.last_letter}")
+                else:
+                    logger.error("This word has already been used. Try another word.")
+
             node.move_to_next_player()
             node.send_to_nodes(word)
     finally:
