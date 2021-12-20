@@ -1,11 +1,12 @@
 # game
 
-### Initialize your code
+### Install
 
-1. Initialize `git` inside your repo:
+1. Clone repo
 
 ```bash
-cd game && git init
+git clone https://github.com/a1d4r/last-letter-game.git
+cd last-letter-game
 ```
 
 2. If you don't have `Poetry` installed run:
@@ -14,53 +15,29 @@ cd game && git init
 make poetry-download
 ```
 
-3. Initialize poetry and install `pre-commit` hooks:
+3. Initialize poetry and python package:
 
 ```bash
 make install
-make pre-commit-install
 ```
 
-4. Run the codestyle:
+### Usage
 
-```bash
-make codestyle
 ```
+Usage: last-letter [OPTIONS]             
 
-5. Upload initial code to github:
-
-```bash
-git add .
-git commit -m "Initial commit"
-git branch -M master
-git remote add origin https://github.com/a1d4r/game.git
-git push -u origin master
+Options:
+  --host TEXT                     [default: 127.0.0.1]
+  --port INTEGER                  [default: 1234]
+  --name TEXT
+  --redis-dsn TEXT                [default: redis://127.0.0.1:6379/0]
+  --install-completion [bash|zsh|fish|powershell|pwsh]
+                                  Install completion for the specified shell.
+  --show-completion [bash|zsh|fish|powershell|pwsh]
+                                  Show completion for the specified shell, to
+                                  copy it or customize the installation.
+  --help                          Show this message and exit.
 ```
-
-### Poetry
-
-Want to know more about Poetry? Check [its documentation](https://python-poetry.org/docs/).
-
-<details>
-<summary>Details about Poetry</summary>
-<p>
-
-Poetry's [commands](https://python-poetry.org/docs/cli/#commands) are very intuitive and easy to learn, like:
-
-- `poetry add numpy@latest`
-- `poetry run pytest`
-- `poetry publish --build`
-
-etc
-</p>
-</details>
-
-## Installation
-
-```bash
-poetry add game
-```
-
 
 
 ### Makefile usage

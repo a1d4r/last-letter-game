@@ -117,7 +117,7 @@ class GamePeerNode(Node):
         logger.debug("node wants to disconnect with other outbound node: " + node.id)
 
     def shutdown(self) -> None:
-        logger.debug("Shutting down...")
+        logger.info("Shutting down...")
         self.peers.remove(self.identity)
 
     def node_request_to_stop(self) -> None:
