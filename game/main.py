@@ -38,3 +38,7 @@ def main(
             logger.debug(node.words)
     finally:
         node.stop()
+
+
+if __name__ == "__main__":
+    app()
