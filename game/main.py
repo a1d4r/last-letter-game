@@ -26,7 +26,9 @@ def main(
         while True:
             word = input()
             while not node.is_word_valid(word):
-                if word[0].lower() != node.last_letter:
+                if not word:
+                    logger.error("Enter the word")
+                elif word[0].lower() != node.last_letter:
                     logger.error(f"Word should starts with letter {node.last_letter}")
                 else:
                     logger.error("This word has already been used. Try another word.")

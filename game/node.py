@@ -57,6 +57,8 @@ class GamePeerNode(Node):
         1) It has not been used yet
         2) It starts with the last letter from the previous word.
         """
+        if not word:
+            return False
         return (self.last_letter is None) or (
             word not in self.words and word[0].lower() == self.last_letter
         )
