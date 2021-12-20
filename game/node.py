@@ -98,7 +98,7 @@ class GamePeerNode(Node):
         If it is not possible, the message is rejected.
         """
         word = data.strip()
-        self.last_letter = word[-1]
+        self.last_letter = word[-1].lower()
         self.words.add(word)
         logger.info(f"{node.id} said: {word}.")
 
